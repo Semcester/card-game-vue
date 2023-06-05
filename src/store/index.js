@@ -13,6 +13,7 @@ const store = createStore({
     isStarted: true,
     isWin: false,
     isLose: false,
+    kazananKartOptions: [],
   },
   mutations: {
     START_GAME(state) {
@@ -25,6 +26,10 @@ const store = createStore({
         const j = Math.floor(Math.random() * (i + 1));
         [state.cards[i], state.cards[j]] = [state.cards[j], state.cards[i]];
       }
+      state.cards.forEach((card) => {
+        state.kazananKartOptions.push(card.name);
+      });
+      console.log("oPTIONS", state.kazananKartOptions);
     },
     UPDATE_SETTINGS(state, gameSettings) {
       state.cards = cardsImage.slice(0, gameSettings.kartSayisi);
@@ -38,6 +43,19 @@ const store = createStore({
       state.kazananKart = gameSettings.kazananKart;
       state.kartSayisi = gameSettings.kartSayisi;
       state.secimHakki = gameSettings.kartSayisi == 6 ? 2 : 1;
+
+      switch (state.kartSayisi) {
+        case 4:
+          return (state.cards = cardsImage.slice(0, 4));
+        case 6:
+          return (state.cards = cardsImage.slice(0, 6));
+        case 8:
+          return (state.cards = cardsImage);
+      }
+      state.kazananKartOptions = [];
+      state.cards.forEach((card) => {
+        state.kazananKartOptions.push(card.name);
+      });
     },
     GAME_ACTIONS(state, name, hak) {
       const win = () => {

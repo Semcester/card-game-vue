@@ -9,7 +9,9 @@
           <select
             id="kartSayısı"
             name="kartSayısı"
+            value="kazananKart"
             v-model="gameSettings.kartSayisi"
+            @change="saveGameSettings"
           >
             <option value="4">4</option>
             <option value="6">6</option>
@@ -23,14 +25,13 @@
             name="kazananKart"
             v-model="gameSettings.kazananKart"
           >
-            <option value="Karo Kızı">Karo Kızı</option>
-            <option value="Maça Kızı">Maça Kızı</option>
-            <option value="Kupa Kızı">Kupa Kızı</option>
-            <option value="Sinek Kızı">Sinek Kızı</option>
-            <option value="Maça Papaz">Maça Papaz</option>
-            <option value="Kupa Papaz">Kupa Papaz</option>
-            <option value="Karo Papaz">Karo Papaz</option>
-            <option value="Sinek Papaz">Sinek Papaz</option>
+            <option
+              v-for="(option, i) in kazananKartOptions"
+              :key="i"
+              value="option"
+            >
+              {{ option }}
+            </option>
           </select>
         </div>
         <div>
@@ -53,6 +54,7 @@
 import Button from 'primevue/button';
 import Dropdown from 'primevue/dropdown';
 export default {
+    props:['kazananKartOptions','kazananKart'],
 
     components:{
         Button,
@@ -73,9 +75,8 @@ export default {
      this.showSidebar = !this.showSidebar;
     },
     saveGameSettings(){
-        console.log(this.gameSettings)
         this.$emit('changeGameSettings', this.gameSettings)
-    }
+    },
   },
 }
 </script>

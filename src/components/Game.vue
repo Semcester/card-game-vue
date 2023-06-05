@@ -4,6 +4,8 @@
     <div v-if="isGameStarted" class="container" style="margin-top: 5%;">
       <sidebar
         v-on:changeGameSettings="this.updateGameSettings($event)"
+        :kazananKartOptions="kazananKartOptions"
+        :kazananKart="kazananKart"
         class="side"
       />
       <Header
@@ -51,6 +53,7 @@ export default {
         let secimHakki= computed(()=>store.state.secimHakki);
         let kalanSure = computed(()=>store.state.kalanSure)
         const backCard = ref(store.state.backCard);
+        let kazananKartOptions = computed(()=>store.state.kazananKartOptions)
         let kartSayisi = ref(4);
         let sureli = ref(false);
         let isGameStarted = computed(()=>store.state.isGameStarted);
@@ -97,7 +100,8 @@ export default {
             isStarted,
             startGame,
             winnerCard,
-            gameActions
+            gameActions,
+            kazananKartOptions
 
         }
     },
