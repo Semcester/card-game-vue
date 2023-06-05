@@ -7,18 +7,12 @@
 <script>
 import Button from 'primevue/button';
 export default{
-    props:{
-        isStarted:{
-            type: Boolean,
-        }
-    },
-
     components:{
         Button
     },
     methods:{
         startGame(){
-            this.$emit('startGame', true)
+            this.$emit('startGame')
         }
     }
 }

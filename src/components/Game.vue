@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Start-Game v-if="isStartGame" v-on:startGame="startGame($event)" />
-    <div v-if="isStarted" class="container" style="margin-top: 5%;">
+    <Start-Game v-if="isStarted" v-on:startGame="startGame($event)" />
+    <div v-if="isGameStarted" class="container" style="margin-top: 5%;">
       <sidebar
         v-on:changeGameSettings="this.updateGameSettings($event)"
         class="side"
@@ -12,17 +12,16 @@
         :kazananKart="kazananKart"
       ></Header>
       <Card
-        v-on:secimHakkiUpdate="this.secimHakkiUpdate($event)"
-        v-on:winnerCard="winnerCard($event)"
+        v-on:actions="this.gameActions($event)"
         :cards="cards"
         :backCard="backCard"
         :kartSayisi="kartSayisi"
       />
     </div>
     <div v-if="isLose">
-      <Lose />
+      <Lose v-on:startGame="this.startGame($event)" />
     </div>
-    <Win v-if="isWin" />
+    <Win v-if="isWin" v-on:startGame="this.startGame($event)" />
   </div>
 </template>
 
@@ -54,15 +53,33 @@ export default {
         const backCard = ref(store.state.backCard);
         let kartSayisi = ref(4);
         let sureli = ref(false);
-        let isStartGame = ref(true);
-        let isStarted = ref(false)
+        let isGameStarted = computed(()=>store.state.isGameStarted);
+        let isStarted = computed(()=>store.state.isStarted);
         let isLose = computed(()=>store.state.isLose)
-        let isWin = ref(false)
+        let isWin = computed(()=>store.state.isWin)
+
+        //Funksiyonlar
+
+        function startGame(){
+          store.dispatch('startGame')
+        }
         function updateGameSettings(gameSettings){
             store.dispatch('updateGameSettings',gameSettings)
         };
         function secimHakkiUpdate(){
             store.dispatch('secimHakki',1)
+        }
+        function winnerCard(name){
+        if(this.kazananKart === name){
+                setTimeout(()=>{
+                    if(this.kazananKart == name){
+                        store.dispatch('isWin')
+                    }
+                },1000)
+            }
+        }
+        function gameActions(name, hak){
+          store.dispatch('gameAction', name, hak)
         }
         return {
             cards,
@@ -74,29 +91,15 @@ export default {
             kalanSure,
             updateGameSettings,
             secimHakkiUpdate,
-            isStartGame,
+            isGameStarted,
             isLose,
             isWin,
             isStarted,
+            startGame,
+            winnerCard,
+            gameActions
+
         }
-    },
-    created(){
-    },
-    methods:{
-        winnerCard(name){
-            if(this.kazananKart === name){
-                setTimeout(()=>{
-                    if(this.kazananKart == name){
-                        this.isWin= true
-                        this.isStarted= false;
-                    }
-                },1000)
-            }
-        },
-        startGame(){
-            this.isStarted = true;
-            this.isStartGame = false
-        },
     },
 }
 </script>

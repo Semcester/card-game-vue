@@ -4,7 +4,7 @@
       <div
         class="card-inner"
         :class="{ flipped: card.flipped }"
-        @click="flipCard(card)"
+        @click="gameAction(card)"
       >
         <img class="card-front" :src="card.imgUrl" />
         <img class="card-back" :src="backCard" />
@@ -36,20 +36,25 @@ export default {
     }
   },
   methods:{
+
+    gameAction(card){
+      card.flipped = false;;
+      this.$emit('actions',card.name, 1)
+    },
+
     flipCard(card){
-        card.flipped = false;
+
         this.$emit('secimHakkiUpdate',1)
         this.winnerCard(card.name);
 
     },
     winnerCard(name){
-      console.log("NAME", name)
       this.$emit('winnerCard',name)
     }
   },
   watch:{
     cards(){
-      this.$emit('turnCard')
+      this.$emit('')
     }
   }
 };
