@@ -28,7 +28,7 @@
             <option
               v-for="(option, i) in kazananKartOptions"
               :key="i"
-              value="option"
+              :value="option"
             >
               {{ option }}
             </option>
@@ -75,6 +75,7 @@ export default {
      this.showSidebar = !this.showSidebar;
     },
     saveGameSettings(){
+      console.log(this.gameSettings)
         this.$emit('changeGameSettings', this.gameSettings)
     },
   },

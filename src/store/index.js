@@ -17,10 +17,11 @@ const store = createStore({
   },
   mutations: {
     START_GAME(state) {
-      state.isGameStarted = true;
       state.isStarted = false;
+      state.isGameStarted = true;
       state.isLose = false;
       state.isWin = false;
+      state.secimHakki = 1;
       state.cards = cardsImage.slice(0, 4);
       for (let i = state.cards.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -29,7 +30,6 @@ const store = createStore({
       state.cards.forEach((card) => {
         state.kazananKartOptions.push(card.name);
       });
-      console.log("oPTIONS", state.kazananKartOptions);
     },
     UPDATE_SETTINGS(state, gameSettings) {
       state.cards = cardsImage.slice(0, gameSettings.kartSayisi);
