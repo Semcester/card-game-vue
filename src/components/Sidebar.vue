@@ -41,7 +41,7 @@
             name="sureli"
             v-model="gameSettings.sureli"
           />
-          <label for="checkbox">Check the box</label>
+          <label for="checkbox">Süreyi başlat </label>
         </div>
         <button type="submit">Save</button>
       </form>
